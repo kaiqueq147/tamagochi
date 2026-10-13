@@ -54,7 +54,7 @@ function GameScreen() {
       />
 
       <footer className="footer">
-        Feito com 💛 para a {` `}Emilly ·{" "}
+        Te amo momo{` `}💛{" "}
         <button type="button" className="link" onClick={() => confirm("Começar um novo Purin? O progresso atual será apagado.") && actions.reset()}>
           recomeçar
         </button>
