@@ -72,7 +72,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .fx__item--fall { animation-name: drop; animation-duration: 1.2s; }
 
 /* ---------- Ações ---------- */
-.actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .action { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px; font-weight: 700; font-size: 0.85rem; background: var(--yellow); border: 3px solid var(--brown); border-radius: 18px; box-shadow: var(--shadow); }
 .action:active { transform: translateY(3px); box-shadow: none; }
 .action__icon { font-size: 1.7rem; }
@@ -128,3 +128,33 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* ---------- Roupinhas (sobre o Purin) ---------- */
+.purin { position: relative; container-type: size; }
+.gear { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: min(100cqw, calc(100cqh * 220 / 240)); aspect-ratio: 220 / 240; pointer-events: none; container-type: inline-size; }
+.gear__item { position: absolute; transform: translate(-50%, -50%); line-height: 1; filter: drop-shadow(0 2px 0 rgba(90, 52, 22, 0.25)); }
+.gear__item--cabeca { left: 52%; top: 7%; font-size: 17cqw; }
+.gear__item--rosto { left: 52%; top: 33%; font-size: 36cqw; }
+.gear__item--pescoco { left: 51%; top: 50%; font-size: 15cqw; }
+
+/* ---------- Quarto: papéis de parede, porta-retrato, enfeites ---------- */
+.wall--rosa { background: repeating-linear-gradient(90deg, #ffd6e0 0 28px, #ffc4d4 28px 56px); }
+.wall--menta { background: radial-gradient(circle, #ffffff55 3px, transparent 4px) 0 0 / 28px 28px, #c9f0dc; }
+.wall--noite { background: radial-gradient(circle, #fff7b8 1.5px, transparent 2.5px) 0 0 / 36px 36px, linear-gradient(#2a2f6b, #4a56a6); }
+
+.frame { position: absolute; top: 92px; left: 14px; z-index: 1; width: 66px; height: 66px; padding: 4px; background: #fff; border: 4px solid var(--brown); border-radius: 8px; box-shadow: var(--shadow); transform: rotate(-4deg); transition: transform 0.2s; }
+.frame:hover, .frame:active { transform: rotate(0) scale(1.06); }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 3px; }
+.room__ornament { position: absolute; top: 112px; right: 16px; z-index: 1; font-size: 2.4rem; animation: bob 3s ease-in-out infinite; }
+
+.gallery { margin: 12px 0 0; text-align: center; }
+.gallery__img { width: 100%; max-height: 60dvh; object-fit: contain; background: #fff; border: 4px solid var(--brown); border-radius: 12px; animation: pop 0.25s ease-out; }
+.gallery figcaption { margin-top: 8px; font-weight: 700; }
+.gallery__nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 10px; font-weight: 700; }
+
+/* ---------- Loja ---------- */
+.tabs { display: flex; gap: 8px; margin: 12px 0 4px; }
+.tab { flex: 1; padding: 8px; background: #fff; border: 2px solid var(--brown); border-radius: 14px; font-weight: 700; }
+.tab--on { background: var(--yellow-d); }
+.shop__group h3 { margin: 14px 0 0; font-size: 0.95rem; opacity: 0.8; }
+.food--on { background: #fff3c4; border-color: var(--maroon); }

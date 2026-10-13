@@ -8,9 +8,10 @@ interface HudProps {
   progress: number;
   onMute: () => void;
   onLetter: () => void;
+  onPhotos: () => void;
 }
 
-export function Hud({ state, level, progress, onMute, onLetter }: HudProps) {
+export function Hud({ state, level, progress, onMute, onLetter, onPhotos }: HudProps) {
   return (
     <header className="hud">
       <div className="hud__top">
@@ -20,6 +21,9 @@ export function Hud({ state, level, progress, onMute, onLetter }: HudProps) {
         <div className="hud__buttons">
           <span className="coins" title="Moedas">🪙 {state.moedas}</span>
           <button type="button" className="icon-btn" onClick={onLetter} aria-label="Abrir carta">💌</button>
+          {CONFIG.photos.length > 0 && (
+            <button type="button" className="icon-btn" onClick={onPhotos} aria-label="Ver fotos">📷</button>
+          )}
           <button type="button" className="icon-btn" onClick={onMute} aria-label={state.mudo ? "Ligar som" : "Desligar som"}>
             {state.mudo ? "🔇" : "🔊"}
           </button>

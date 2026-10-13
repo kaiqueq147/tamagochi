@@ -11,9 +11,24 @@ export interface GameState {
   /** já viu a tela de boas-vindas */
   visto: boolean;
   mudo: boolean;
+  /** ids dos itens da loja já comprados */
+  itens: string[];
+  /** item equipado em cada espaço (roupinha / decoração) */
+  equipado: Partial<Record<Slot, string>>;
   criado: number;
   /** timestamp da última atualização do tempo */
   ultimo: number;
+}
+
+/** Onde cada item da loja é colocado */
+export type Slot = "cabeca" | "rosto" | "pescoco" | "parede" | "enfeite";
+
+export interface ShopItem {
+  id: string;
+  slot: Slot;
+  nome: string;
+  emoji: string;
+  preco: number;
 }
 
 export type Mood = "ok" | "happy" | "sad" | "hungry" | "dirty" | "tired" | "sleeping";
@@ -42,6 +57,8 @@ export type GameAction =
   | { type: "sleep"; value: boolean }
   | { type: "pet" }
   | { type: "play"; points: number }
+  | { type: "buy"; item: ShopItem }
+  | { type: "equip"; slot: Slot; id: string | null }
   | { type: "seen" }
   | { type: "toggleMute" }
   | { type: "reset" };

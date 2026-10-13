@@ -8,7 +8,7 @@ const { spawn } = require("child_process");
 const OUT = path.join(__dirname, "..", "out");
 const SHOTS = path.join(__dirname, "work");
 fs.mkdirSync(SHOTS, { recursive: true });
-const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".png": "image/png", ".riv": "application/octet-stream", ".wasm": "application/wasm" };
+const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".riv": "application/octet-stream", ".wasm": "application/wasm" };
 
 const server = http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split("?")[0]);
@@ -24,7 +24,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 (async () => {
   await new Promise((r) => server.listen(8123, r));
-  const edge = spawn(EDGE, ["--headless=new", "--remote-debugging-port=9333", "--user-data-dir=" + path.join(SHOTS, "profile"), "--window-size=480,900", "about:blank"], { stdio: "ignore" });
+  const edge = spawn(EDGE, ["--headless=new", "--remote-debugging-port=9333", "--user-data-dir=" + path.join(require("os").tmpdir(), "purin-e2e-" + Date.now()), "--window-size=480,900", "about:blank"], { stdio: "ignore" });
   let targets;
   for (let i = 0; i < 40; i++) { try { targets = await (await fetch("http://127.0.0.1:9333/json")).json(); break; } catch { await sleep(250); } }
   const page = targets.find((t) => t.type === "page");
@@ -62,6 +62,20 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   console.log("letter", await click(".hud .icon-btn")); await sleep(500); await shot("8-letter");
   await ev("document.querySelector('.modal .icon-btn').click()"); await sleep(300);
   console.log("sleep", await clickText(".action", "Dormir")); await sleep(1200); await shot("9-sleep");
+  // loja + fotos (dá moedas, acorda o Purin e recarrega)
+  await ev(`(() => { const s = JSON.parse(localStorage.getItem('purin-emilly-v1')); s.moedas = 300; s.dormindo = false; s.energia = 80; localStorage.setItem('purin-emilly-v1', JSON.stringify(s)); })()`);
+  await send("Page.navigate", { url: "http://127.0.0.1:8123/" }); await sleep(2500);
+  console.log("shop", await clickText(".action", "Loja")); await sleep(400); await shot("10-shop");
+  for (const n of ["Coroinha", "Óculos escuros", "Laço"]) console.log("buy", n, await clickText(".food", n));
+  await sleep(300);
+  console.log("tab", await clickText(".tab", "Quarto"));
+  for (const n of ["Rosinha", "Ursinho"]) console.log("buy", n, await clickText(".food", n));
+  await sleep(300); await shot("11-shop-quarto");
+  await ev("document.querySelector('.modal .icon-btn').click()"); await sleep(2500); await shot("12-dressed");
+  console.log("frame", await click(".frame")); await sleep(500); await shot("13-gallery");
+  console.log("svg", await ev("fetch('/photos/exemplo.svg').then(async r => r.status + ' ' + r.headers.get('content-type') + ' ' + (await r.text()).slice(0, 120))"));
+  console.log("img", await ev("(() => { const i = document.querySelector('.gallery__img'); return i.src + ' ' + i.complete + ' ' + i.naturalWidth; })()"));
+  await ev("document.querySelector('.modal .icon-btn').click()");
   console.log("saved", await ev("localStorage.getItem('purin-emilly-v1')"));
   console.log("LOGS", logs.length ? logs.join("\n") : "(nenhum erro)");
 

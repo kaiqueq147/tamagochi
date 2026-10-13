@@ -2,11 +2,11 @@ import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { sfx } from "@/audio/sfx";
 import { CONFIG } from "@/config/config";
 import { MINIGAME } from "@/game/constants";
-import { coinsFor, getMood, isClean, isFull, loveLevel, loveProgress } from "@/game/logic";
+import { coinsFor, getMood, isClean, isFull, loveLevel, loveProgress, owns } from "@/game/logic";
 import { buildLoveMessages, buildMessages } from "@/game/messages";
 import { gameReducer } from "@/game/reducer";
 import { loadGame, saveGame } from "@/game/storage";
-import type { Food, GameAction, PurinTrigger, SfxName } from "@/game/types";
+import type { Food, GameAction, PurinTrigger, SfxName, ShopItem, Slot } from "@/game/types";
 import { pick, wait } from "@/utils";
 
 /** Tudo que o jogo "mostra" ao jogador além do estado: fala, efeitos e animação do Purin. */
@@ -76,7 +76,7 @@ export function useGame(fb: Feedback) {
   useEffect(() => {
     if (!boot.state.visto) return;
     fbRef.current.say(
-      boot.offline > 30 ? `${P}, que saudade! Você demorou... 🥺💛` : `Bem-vinda de volta, ${P}! 💛`,
+      boot.offline > 30 ? `${P}, que saudade Você demorou 🥺` : `Bem-vinda de volta, ${P}! 💛`,
       5000
     );
   }, [boot]);
@@ -88,7 +88,7 @@ export function useGame(fb: Feedback) {
     if (wasSleeping.current && !state.dormindo) {
       if (manualWake.current) manualWake.current = false;
       else {
-        fbRef.current.say(`Bom dia, ${P}! Dormi super bem! ☀️`);
+        fbRef.current.say(`Bom dia, ${P} ☀️`);
         fbRef.current.trigger("pular");
       }
     }
@@ -97,7 +97,7 @@ export function useGame(fb: Feedback) {
 
   /* ---------- ações ---------- */
   const shh = useCallback(() => {
-    fbRef.current.say("Shhh... o Purin está dormindo 😴", 2200);
+    fbRef.current.say("o Pompom está dormindo 😴", 2200);
     play("erro");
   }, []);
 
@@ -114,7 +114,7 @@ export function useGame(fb: Feedback) {
     },
 
     async feed(food: Food) {
-      if (isFull(stateRef.current)) return refuse("Estou cheinho! Não consigo comer mais 🥹");
+      if (isFull(stateRef.current)) return refuse("Estou cheinho Não consigo comer mais ");
       const { say, burst, trigger } = fbRef.current;
       commit({ type: "feed", food });
       burst(food.emoji, 1, true);
@@ -128,7 +128,7 @@ export function useGame(fb: Feedback) {
     async bath() {
       const s = stateRef.current;
       if (s.dormindo) return shh();
-      if (isClean(s)) return refuse("Já estou limpinho e cheiroso! ✨");
+      if (isClean(s)) return refuse("Já estou limpinho e cheiroso ");
       const { say, burst, trigger } = fbRef.current;
       trigger("banho");
       burst(["🫧", "🛁", "🫧", "💦"], 10);
@@ -137,7 +137,7 @@ export function useGame(fb: Feedback) {
       await wait(1800);
       commit({ type: "bath" });
       burst(["✨", "🌟"], 5);
-      say(`Estou limpinho, ${P}! Obrigado! ✨`);
+      say(`Estou limpinho, ${P} Obrigado`);
     },
 
     toggleSleep() {
@@ -149,11 +149,11 @@ export function useGame(fb: Feedback) {
         say("Hmm... bom dia! ☀️");
         play("clique");
       } else if (s.energia > 90) {
-        refuse("Ainda não estou com sono! 😆");
+        refuse("Ainda não estou com sono");
       } else {
         commit({ type: "sleep", value: true });
         play("dormir");
-        say(`Boa noite, ${P}... 🌙`, 2800);
+        say(`Boa noite, ${P}... `, 2800);
       }
     },
 
@@ -172,8 +172,8 @@ export function useGame(fb: Feedback) {
     openGame(): boolean {
       const s = stateRef.current;
       if (s.dormindo) { shh(); return false; }
-      if (s.energia < MINIGAME.minEnergy) { refuse("Estou cansado demais pra brincar... 😴"); return false; }
-      if (s.fome < MINIGAME.minFood) { refuse("Com a barriga vazia não consigo brincar... 🥺"); return false; }
+      if (s.energia < MINIGAME.minEnergy) { refuse("Estou cansado demais pra brincar"); return false; }
+      if (s.fome < MINIGAME.minFood) { refuse("Com a barriga vazia não consigo brincar"); return false; }
       return true;
     },
 
@@ -187,14 +187,39 @@ export function useGame(fb: Feedback) {
       commit({ type: "seen" });
       play("feliz");
       fbRef.current.burst(["💛", "🍮", "✨"], 8);
-      fbRef.current.say(`Oi, ${P}! Que bom que você chegou! 💛`, 5000);
+      fbRef.current.say(`Oi, ${P}! Que bom que você chegou`, 5000);
+    },
+
+    buy(item: ShopItem) {
+      const s = stateRef.current;
+      if (owns(s, item)) return;
+      if (s.moedas < item.preco) return refuse(`Faltam moedas, ${P}! Brinque um pouquinho comigo 🪙`);
+      const { say, burst, trigger } = fbRef.current;
+      commit({ type: "buy", item });
+      play("moeda");
+      burst([item.emoji, "✨", "💛"], 6);
+      trigger("pular");
+      say(pick([
+        `Que lindo! Obrigado, ${P}! ${item.emoji}💛`,
+        `Amei o presente, ${P}! ${item.emoji}`,
+        `Fiquei chique, né? ${item.emoji}✨`
+      ]));
+    },
+
+    equip(slot: Slot, id: string | null) {
+      commit({ type: "equip", slot, id });
+      play("clique");
+      if (id) {
+        fbRef.current.burst(["✨"], 3);
+        fbRef.current.trigger("pular");
+      }
     },
 
     toggleMute() { commit({ type: "toggleMute" }); },
 
     reset() {
       commit({ type: "reset" });
-      fbRef.current.say(`Um novo começo com você, ${P}! 💛`);
+      fbRef.current.say(`Um novo começo com você, ${P}`);
     },
 
     idleTalk() {

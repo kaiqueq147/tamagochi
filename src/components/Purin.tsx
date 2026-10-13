@@ -15,8 +15,12 @@ export interface PurinHandle {
   fire: (t: PurinTrigger) => void;
 }
 
+/** Emojis das roupinhas equipadas em cada espaço do Purin */
+export type Gear = Partial<Record<"cabeca" | "rosto" | "pescoco", string>>;
+
 interface Props {
   mood: Mood;
+  gear?: Gear;
   ref?: Ref<PurinHandle>;
   onPet?: () => void;
 }
@@ -27,7 +31,7 @@ interface Props {
  *  - triggers `comer`, `banho`, `carinho`, `pular` disparam animações pontuais
  * Se o Rive falhar por qualquer motivo, mostramos a imagem estática com uma animação CSS.
  */
-export function Purin({ mood, ref, onPet }: Props) {
+export function Purin({ mood, gear, ref, onPet }: Props) {
   const [failed, setFailed] = useState(false);
 
   const { rive, RiveComponent } = useRive({
@@ -65,6 +69,13 @@ export function Purin({ mood, ref, onPet }: Props) {
         <img className="purin__fallback" src={asset("purin-base.png")} alt="Pompompurin" draggable={false} />
       ) : (
         <RiveComponent className="purin__rive" />
+      )}
+      {gear && (
+        <span className="gear" aria-hidden>
+          {gear.pescoco && <span className="gear__item gear__item--pescoco">{gear.pescoco}</span>}
+          {gear.rosto && <span className="gear__item gear__item--rosto">{gear.rosto}</span>}
+          {gear.cabeca && <span className="gear__item gear__item--cabeca">{gear.cabeca}</span>}
+        </span>
       )}
     </button>
   );

@@ -5,5 +5,8 @@ export const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 /** Prefixo quando o site é publicado em subpasta (ex.: GitHub Pages). */
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+/** Caminho de arquivos da pasta `public/photos`. */
+export const photo = (file: string) => `${BASE_PATH}/photos/${file}`;
+
 /** Caminho de arquivos da pasta `public/assets` (funciona em qualquer hospedagem). */
 export const asset = (file: string) => `${BASE_PATH}/assets/${file}`;

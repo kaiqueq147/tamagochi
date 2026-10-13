@@ -4,14 +4,16 @@ interface ActionBarProps {
   onBath: () => void;
   onSleep: () => void;
   onPlay: () => void;
+  onShop: () => void;
 }
 
-export function ActionBar({ sleeping, onFeed, onBath, onSleep, onPlay }: ActionBarProps) {
+export function ActionBar({ sleeping, onFeed, onBath, onSleep, onPlay, onShop }: ActionBarProps) {
   const items = [
     { icon: "🍮", label: "Comer", onClick: onFeed },
     { icon: "🛁", label: "Banho", onClick: onBath },
     { icon: sleeping ? "☀️" : "🌙", label: sleeping ? "Acordar" : "Dormir", onClick: onSleep },
-    { icon: "🎮", label: "Brincar", onClick: onPlay }
+    { icon: "🎮", label: "Brincar", onClick: onPlay },
+    { icon: "🛍️", label: "Loja", onClick: onShop }
   ];
   return (
     <nav className="actions">

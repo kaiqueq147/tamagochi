@@ -43,25 +43,25 @@ export function buildMessages(p: string): Record<Mood, string[]> {
       ...amor.slice(0, 8)
     ],
     hungry: [
-      `${p}, estou com muita fome... 🍮`,
-      "Minha barriguinha está roncando... 😢",
+      `${p}, estou com muita fome 🍮`,
+      "Minha barriguinha está roncando 😢",
       "Será que tem pudim por aí?",
-      `Mesmo com fome, eu lembro que você é especial, ${p}! 💛`
+      `Mesmo com fome, eu lembro que você é especial, ${p}`
     ],
     sad: [
       `${p}, estou tristinho... me dá carinho? 🥺`,
-      "Preciso de um abraço...",
-      "Vamos brincar? Por favoooor!",
+      "Preciso de um abraço",
+      "Vamos brincar? Por favor",
       `Perto de você eu sempre melhoro, ${p}! 💛`
     ],
     dirty: [
-      "Eu estou fedidinho... preciso de banho! 🛁",
+      "Eu estou fedidinho... preciso de banho",
       `${p}, me ajuda a ficar limpinho?`
     ],
     tired: [
       "Que soninho... 😴",
       `Posso tirar uma sonequinha, ${p}?`,
-      `Sonhei com você, ${p}... 💭💛`
+      `Sonhei com você, ${p}💭`
     ],
     sleeping: [
       "Zzz... com você... Zzz...",

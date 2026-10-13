@@ -1,12 +1,12 @@
 import { LOVE, OFFLINE, RATE } from "./constants";
-import type { Food, GameState, Mood } from "./types";
+import type { Food, GameState, Mood, ShopItem, Slot } from "./types";
 
 export const clamp = (v: number, a = 0, b = 100) => Math.min(b, Math.max(a, v));
 
 export function newGame(now = Date.now()): GameState {
   return {
     fome: 70, feliz: 80, energia: 90, higiene: 90,
-    moedas: 10, amor: 0,
+    moedas: 10, amor: 0, itens: [], equipado: {},
     dormindo: false, visto: false, mudo: false,
     criado: now, ultimo: now
   };
@@ -85,6 +85,31 @@ export const bathe = (s: GameState): GameState => ({
 export const pet = (s: GameState): GameState => ({
   ...s, feliz: clamp(s.feliz + 4), amor: s.amor + LOVE.pet
 });
+
+/* ------------------------------ loja ------------------------------- */
+
+export const owns = (s: GameState, item: ShopItem) => item.preco === 0 || s.itens.includes(item.id);
+
+/** Compra e já coloca o item no Purin / quarto. */
+export function buyItem(s: GameState, item: ShopItem): GameState {
+  if (owns(s, item) || s.moedas < item.preco) return s;
+  return {
+    ...s,
+    moedas: s.moedas - item.preco,
+    itens: [...s.itens, item.id],
+    equipado: { ...s.equipado, [item.slot]: item.id },
+    feliz: clamp(s.feliz + 6),
+    amor: s.amor + LOVE.gift
+  };
+}
+
+/** `id = null` tira o item daquele espaço. */
+export function equipItem(s: GameState, slot: Slot, id: string | null): GameState {
+  const equipado = { ...s.equipado };
+  if (id === null) delete equipado[slot];
+  else equipado[slot] = id;
+  return { ...s, equipado };
+}
 
 export const coinsFor = (points: number) => Math.ceil(points * 0.8);
 
