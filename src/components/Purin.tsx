@@ -1,7 +1,8 @@
 "use client";
 
 import { Alignment, Fit, Layout, RuntimeLoader, useRive, useStateMachineInput } from "@rive-app/react-canvas";
-import { useEffect, useImperativeHandle, useState, type Ref } from "react";
+import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
+import { Vape } from "./Vape";
 import { MOOD_ID } from "@/game/constants";
 import type { Mood, PurinTrigger } from "@/game/types";
 import { BASE_PATH, asset } from "@/utils";
@@ -11,8 +12,13 @@ RuntimeLoader.setWasmUrl(`${BASE_PATH}/vendor/rive.wasm`);
 
 const STATE_MACHINE = "Purin";
 
+/** Duração total da animação de tragar + soltar fumaça (ms) */
+export const VAPE_MS = 5600;
+
 export interface PurinHandle {
   fire: (t: PurinTrigger) => void;
+  /** Purin dá uma tragada e solta a fumaça */
+  vape: () => void;
 }
 
 /** Emojis das roupinhas equipadas em cada espaço do Purin */
@@ -33,6 +39,8 @@ interface Props {
  */
 export function Purin({ mood, gear, ref, onPet }: Props) {
   const [failed, setFailed] = useState(false);
+  const [vaping, setVaping] = useState(false);
+  const vapeTimer = useRef(0);
 
   const { rive, RiveComponent } = useRive({
     src: asset("purin.riv"),
@@ -57,26 +65,32 @@ export function Purin({ mood, gear, ref, onPet }: Props) {
     () => ({
       fire(t) {
         ({ comer, banho, carinho, pular })[t]?.fire();
+      },
+      vape() {
+        setVaping(true);
+        window.clearTimeout(vapeTimer.current);
+        vapeTimer.current = window.setTimeout(() => setVaping(false), VAPE_MS);
       }
     }),
     [comer, banho, carinho, pular]
   );
 
+  useEffect(() => () => window.clearTimeout(vapeTimer.current), []);
+
   return (
-    <button type="button" className={`purin purin--${mood}`} onClick={onPet} aria-label="Fazer carinho no Purin">
+    <button type="button" className={`purin purin--${mood}${vaping ? " purin--vape" : ""}`} onClick={onPet} aria-label="Fazer carinho no Purin">
       {failed ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img className="purin__fallback" src={asset("purin-base.png")} alt="Pompompurin" draggable={false} />
       ) : (
         <RiveComponent className="purin__rive" />
       )}
-      {gear && (
-        <span className="gear" aria-hidden>
-          {gear.pescoco && <span className="gear__item gear__item--pescoco">{gear.pescoco}</span>}
-          {gear.rosto && <span className="gear__item gear__item--rosto">{gear.rosto}</span>}
-          {gear.cabeca && <span className="gear__item gear__item--cabeca">{gear.cabeca}</span>}
-        </span>
-      )}
+      <span className="gear" aria-hidden>
+        {gear?.pescoco && <span className="gear__item gear__item--pescoco">{gear.pescoco}</span>}
+        {gear?.rosto && <span className="gear__item gear__item--rosto">{gear.rosto}</span>}
+        {gear?.cabeca && <span className="gear__item gear__item--cabeca">{gear.cabeca}</span>}
+        {vaping && <Vape />}
+      </span>
     </button>
   );
 }

@@ -82,6 +82,10 @@ export const bathe = (s: GameState): GameState => ({
   ...s, higiene: clamp(s.higiene + 65), feliz: clamp(s.feliz + 4), amor: s.amor + LOVE.bath
 });
 
+export const vape = (s: GameState): GameState => ({
+  ...s, feliz: clamp(s.feliz + 4), higiene: clamp(s.higiene - 3)
+});
+
 export const pet = (s: GameState): GameState => ({
   ...s, feliz: clamp(s.feliz + 4), amor: s.amor + LOVE.pet
 });

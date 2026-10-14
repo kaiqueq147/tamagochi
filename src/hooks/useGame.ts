@@ -14,6 +14,7 @@ export interface Feedback {
   say: (text: string, ms?: number) => void;
   burst: (emoji: string | string[], count?: number, fall?: boolean) => void;
   trigger: (t: PurinTrigger) => void;
+  vape: () => void;
 }
 
 const P = CONFIG.partner;
@@ -31,6 +32,7 @@ export function useGame(fb: Feedback) {
   const loveLines = useMemo(() => buildLoveMessages(P), []);
 
   // escolhe uma frase sem repetir a última que foi dita
+  const vaping = useRef(false);
   const lastLine = useRef("");
   const pickFresh = useCallback((list: readonly string[]) => {
     const options = list.length > 1 ? list.filter((l) => l !== lastLine.current) : list;
@@ -140,6 +142,27 @@ export function useGame(fb: Feedback) {
       say(`Estou limpinho, ${P} Obrigado`);
     },
 
+    /** Purin dá uma tragada no vape de morango gelado e solta a fumaça. */
+    async vape() {
+      if (stateRef.current.dormindo) return shh();
+      if (vaping.current) return;
+      vaping.current = true;
+      const { say, burst, vape } = fbRef.current;
+      vape();
+      play("tragar");
+      await wait(2200);
+      play("soprar");
+      commit({ type: "vape" });
+      burst(["💨", "🍓", "❄️"], 4);
+      say(pick([
+        `... 💨, ${P}! 🍓❄️`,
+        "Ahhh pod é melhor que kaique 😮‍💨🍓",
+        `${P}, amo meu pod 💨`
+      ]), 4200);
+      await wait(3200);
+      vaping.current = false;
+    },
+
     toggleSleep() {
       const s = stateRef.current;
       const { say } = fbRef.current;
@@ -153,7 +176,7 @@ export function useGame(fb: Feedback) {
       } else {
         commit({ type: "sleep", value: true });
         play("dormir");
-        say(`Boa noite, ${P}... `, 2800);
+        say(`Boa noite ${P}... `, 2800);
       }
     },
 

@@ -1,19 +1,20 @@
+import type { IconName } from "@/components/Icon";
 import type { Food, Mood, ShopItem, Slot, StatKey } from "./types";
 
 export const SAVE_KEY = "purin-emilly-v1";
 
-export const STATS: { key: StatKey; icon: string; label: string }[] = [
-  { key: "fome", icon: "🍮", label: "Fome" },
-  { key: "feliz", icon: "💗", label: "Felicidade" },
-  { key: "energia", icon: "⚡", label: "Energia" },
-  { key: "higiene", icon: "🫧", label: "Higiene" }
+export const STATS: { key: StatKey; icon: IconName; label: string }[] = [
+  { key: "fome", icon: "pudding", label: "Fome" },
+  { key: "feliz", icon: "heart", label: "Felicidade" },
+  { key: "energia", icon: "bolt", label: "Energia" },
+  { key: "higiene", icon: "drops", label: "Higiene" }
 ];
 
 export const FOODS: Food[] = [
-  { id: "pudim", nome: "Pudim do Purin", emoji: "🍮", preco: 0, fome: 22, feliz: 4, desc: "Meu preferido" },
-  { id: "morango", nome: "Morango", emoji: "🍓", preco: 4, fome: 12, feliz: 9, desc: "Moranguin gostoso" },
-  { id: "cookie", nome: "Cookie", emoji: "🍪", preco: 6, fome: 18, feliz: 12, desc: "Cukkie" },
-  { id: "bolo", nome: "Fatia de bolo", emoji: "🍰", preco: 9, fome: 32, feliz: 16, desc: "Bolin" }
+  { id: "pudim", nome: "Pudim do Purin", emoji: "🍮", preco: 0, fome: 22, feliz: 4, desc: "Grátis e o preferido dele!" },
+  { id: "morango", nome: "Morango", emoji: "🍓", preco: 4, fome: 12, feliz: 9, desc: "Docinho e fresquinho" },
+  { id: "cookie", nome: "Cookie", emoji: "🍪", preco: 6, fome: 18, feliz: 12, desc: "Crocante e gostoso" },
+  { id: "bolo", nome: "Fatia de bolo", emoji: "🍰", preco: 9, fome: 32, feliz: 16, desc: "Uma festa na boca!" }
 ];
 
 export const SLOT_LABEL: Record<Slot, string> = {
@@ -67,6 +68,17 @@ export const RATE = {
 /** Número enviado ao input `humor` da state machine do Rive */
 export const MOOD_ID: Record<Mood, number> = {
   ok: 0, happy: 1, sad: 2, hungry: 3, dirty: 4, tired: 5, sleeping: 6
+};
+
+/** Texto curtinho que mostra como o Purin está se sentindo */
+export const MOOD_LABEL: Record<Mood, string> = {
+  ok: "Tranquilo",
+  happy: "Feliz",
+  sad: "Tristinho",
+  hungry: "Com fome",
+  dirty: "Sujinho",
+  tired: "Cansado",
+  sleeping: "Dormindo"
 };
 
 /** Quanto de amor cada ação rende */

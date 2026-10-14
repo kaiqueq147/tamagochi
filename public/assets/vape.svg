@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="220" viewBox="0 0 120 220">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7b2c0"/>
+      <stop offset="1" stop-color="#f09aae"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#fbcad4"/>
+      <stop offset="1" stop-color="#f5a9b9"/>
+    </linearGradient>
+    <linearGradient id="tip" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f9c9d2"/>
+      <stop offset="0.55" stop-color="#fbd5dc"/>
+      <stop offset="1" stop-color="#f3aebd"/>
+    </linearGradient>
+  </defs>
+
+  <!-- mouthpiece -->
+  <rect x="30" y="4" width="48" height="76" rx="11" fill="url(#tip)" stroke="#d9798f" stroke-width="2"/>
+  <rect x="37" y="9" width="34" height="15" rx="6" fill="#f09aae"/>
+  <rect x="37" y="9" width="34" height="5" rx="2.5" fill="#fff" opacity=".35"/>
+  <rect x="36" y="30" width="5" height="40" rx="2.5" fill="#fff" opacity=".4"/>
+
+  <!-- body -->
+  <rect x="8" y="62" width="104" height="154" rx="26" fill="url(#body)" stroke="#d9798f" stroke-width="2"/>
+  <rect x="26" y="58" width="56" height="16" rx="4" fill="#f3a7b7"/>
+
+  <!-- front panel -->
+  <rect x="20" y="72" width="80" height="132" rx="15" fill="url(#panel)" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"/>
+  <path d="M26 90 Q26 76 40 76 L62 76 Q40 110 26 150 Z" fill="#fff" opacity=".22"/>
+
+  <!-- logo: leaf and bubbles -->
+  <circle cx="66" cy="84" r="2.6" fill="none" stroke="#fff" stroke-width="1.2"/>
+  <circle cx="73" cy="80" r="1.8" fill="none" stroke="#fff" stroke-width="1.2"/>
+  <circle cx="78" cy="86" r="1.2" fill="none" stroke="#fff" stroke-width="1"/>
+  <path d="M62 104 C60 96 68 90 78 92 C80 100 72 108 62 104 Z" fill="none" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M62 104 C68 100 72 97 76 94" fill="none" stroke="#fff" stroke-width="1"/>
+  <path d="M60 106 C54 102 50 108 52 114 C58 114 61 111 60 106 Z" fill="none" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+
+  <!-- vertical texts -->
+  <g fill="#fff" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif">
+    <text transform="translate(45 192) rotate(-90)" font-size="21" letter-spacing="7" font-weight="300">ELFBAR</text>
+    <text transform="translate(62 192) rotate(-90)" font-size="13" letter-spacing="2" font-weight="400">BC10000</text>
+    <text transform="translate(72 192) rotate(-90)" font-size="6.2" letter-spacing="1.1" font-weight="400">STRAWBERRY ICE</text>
+  </g>
+
+  <!-- drop and battery icons -->
+  <rect x="78" y="152" width="15" height="40" rx="4" fill="#fff" fill-opacity=".18" stroke="#fff" stroke-width="1.2"/>
+  <path d="M85.5 158 C82 162 82 165 85.5 166 C89 165 89 162 85.5 158 Z" fill="none" stroke="#fff" stroke-width="1"/>
+  <rect x="81" y="172" width="9" height="15" rx="1.8" fill="none" stroke="#fff" stroke-width="1"/>
+  <rect x="84" y="170.4" width="3" height="1.8" fill="#fff"/>
+  <rect x="82.6" y="174" width="5.8" height="2.6" fill="#fff"/>
+  <rect x="82.6" y="178" width="5.8" height="2.6" fill="#fff"/>
+  <rect x="82.6" y="182" width="5.8" height="2.6" fill="#fff"/>
+</svg>

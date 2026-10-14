@@ -1,6 +1,7 @@
 import { CONFIG } from "@/config/config";
 import { STATS } from "@/game/constants";
 import type { GameState } from "@/game/types";
+import { Icon } from "./Icon";
 
 interface HudProps {
   state: GameState;
@@ -19,30 +20,45 @@ export function Hud({ state, level, progress, onMute, onLetter, onPhotos }: HudP
           Purin <span>&amp;</span> {CONFIG.partner}
         </h1>
         <div className="hud__buttons">
-          <span className="coins" title="Moedas">🪙 {state.moedas}</span>
-          <button type="button" className="icon-btn" onClick={onLetter} aria-label="Abrir carta">💌</button>
-          {CONFIG.photos.length > 0 && (
-            <button type="button" className="icon-btn" onClick={onPhotos} aria-label="Ver fotos">📷</button>
-          )}
+          <span className="coins" title="Moedas">
+            <Icon name="coin" size={20} />
+            <b>{state.moedas}</b>
+          </span>
+          <button type="button" className="icon-btn" onClick={onLetter} aria-label="Abrir carta"><Icon name="letter" size={22} /></button>
+          <button type="button" className="icon-btn" onClick={onPhotos} aria-label="Fotos"><Icon name="camera" size={22} /></button>
           <button type="button" className="icon-btn" onClick={onMute} aria-label={state.mudo ? "Ligar som" : "Desligar som"}>
-            {state.mudo ? "🔇" : "🔊"}
+            <Icon name={state.mudo ? "mute" : "sound"} size={22} />
           </button>
         </div>
       </div>
 
       <div className="love" title="Nível de amor">
-        <span className="love__label">💛 Amor nv. {level}</span>
-        <div className="bar"><div className="bar__fill bar__fill--love" style={{ width: `${progress * 100}%` }} /></div>
+        <span className="love__badge" aria-label={`Nível de amor ${level}`}>
+          <Icon name="heart" size={26} />
+          <b>{level}</b>
+        </span>
+        <div className="love__bar">
+          <span className="love__label">Amor</span>
+          <div className="bar bar--love" role="progressbar" aria-valuenow={Math.round(progress * 100)} aria-valuemin={0} aria-valuemax={100}>
+            <div className="bar__fill" style={{ width: `${Math.max(4, progress * 100)}%` }} />
+          </div>
+        </div>
       </div>
 
       <ul className="stats">
         {STATS.map((s) => {
           const v = Math.round(state[s.key]);
           return (
-            <li key={s.key} className={v < 25 ? "stat stat--low" : "stat"}>
-              <span className="stat__icon" aria-hidden>{s.icon}</span>
-              <div className="bar" role="progressbar" aria-label={s.label} aria-valuenow={v} aria-valuemin={0} aria-valuemax={100}>
-                <div className="bar__fill" style={{ width: `${v}%` }} />
+            <li key={s.key} className={`stat stat--${s.key}${v < 25 ? " stat--low" : ""}`}>
+              <span className="stat__badge"><Icon name={s.icon} size={20} /></span>
+              <div className="stat__body">
+                <div className="stat__head">
+                  <span>{s.label}</span>
+                  <b>{v}</b>
+                </div>
+                <div className="bar" role="progressbar" aria-label={s.label} aria-valuenow={v} aria-valuemin={0} aria-valuemax={100}>
+                  <div className="bar__fill" style={{ width: `${Math.max(v, 4)}%` }} />
+                </div>
               </div>
             </li>
           );

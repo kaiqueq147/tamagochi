@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { CONFIG } from "@/config/config";
 import type { FxItem } from "@/hooks/useFx";
 import type { Speech } from "@/hooks/useSpeech";
+import { MOOD_LABEL } from "@/game/constants";
 import type { Mood } from "@/game/types";
-import { photo } from "@/utils";
 
 interface RoomProps {
   mood: Mood;
@@ -13,25 +12,28 @@ interface RoomProps {
   wallpaper?: string;
   /** emoji do enfeite equipado */
   ornament?: string;
+  /** foto que aparece no porta-retrato (vazio = porta-retrato com "+") */
+  cover?: string;
   onPhotos: () => void;
   children: ReactNode;
 }
 
 /** O quartinho: fundo, porta-retrato, balão de fala, efeitos e o Purin (children). */
-export function Room({ mood, speech, fx, wallpaper, ornament, onPhotos, children }: RoomProps) {
-  const first = CONFIG.photos[0];
+export function Room({ mood, speech, fx, wallpaper, ornament, cover, onPhotos, children }: RoomProps) {
   return (
     <section className={`room room--${mood} wall--${wallpaper ?? "creme"}`} aria-live="polite">
       <div className="room__window" aria-hidden />
       <div className="room__floor" aria-hidden />
       {mood === "sleeping" && <div className="room__zzz" aria-hidden>💤</div>}
 
-      {first && (
-        <button type="button" className="frame" onClick={onPhotos} aria-label="Ver fotos">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={photo(first.file)} alt="" draggable={false} />
-        </button>
-      )}
+      <button type="button" className="frame" onClick={onPhotos} aria-label={cover ? "Ver fotos" : "Adicionar fotos"}>
+        {cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={cover} alt="" draggable={false} />
+        ) : (
+          <span className="frame__plus">＋</span>
+        )}
+      </button>
       {ornament && <div className="room__ornament" aria-hidden>{ornament}</div>}
 
       {speech && (
@@ -40,7 +42,9 @@ export function Room({ mood, speech, fx, wallpaper, ornament, onPhotos, children
         </p>
       )}
 
+      <div className="room__rug" aria-hidden />
       <div className="room__purin">{children}</div>
+      <span className={`mood-chip mood-chip--${mood}`}>{MOOD_LABEL[mood]}</span>
 
       <div className="fx" aria-hidden>
         {fx.map((f) => (

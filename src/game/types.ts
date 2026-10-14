@@ -47,7 +47,8 @@ export interface Food {
 }
 
 export type SfxName =
-  | "clique" | "comer" | "feliz" | "banho" | "nivel" | "erro" | "moeda" | "ai" | "dormir";
+  | "clique" | "comer" | "feliz" | "banho" | "nivel" | "erro" | "moeda" | "ai" | "dormir"
+  | "tragar" | "soprar";
 
 /** Ações que mudam o estado do jogo (reducer puro). */
 export type GameAction =
@@ -57,6 +58,7 @@ export type GameAction =
   | { type: "sleep"; value: boolean }
   | { type: "pet" }
   | { type: "play"; points: number }
+  | { type: "vape" }
   | { type: "buy"; item: ShopItem }
   | { type: "equip"; slot: Slot; id: string | null }
   | { type: "seen" }
