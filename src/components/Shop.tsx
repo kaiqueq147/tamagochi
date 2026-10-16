@@ -18,7 +18,7 @@ interface ShopProps {
 function Preview({ item }: { item: ShopItem }) {
   if (item.slot === "parede") return <span className={`swatch wall--${item.id}`} />;
   if (item.slot === "piso") return <span className={`swatch swatch--floor floor--${item.id}`} />;
-  return <span className="card__emoji">{item.emoji}</span>;
+  return <span className={`card__emoji item--${item.id}`}>{item.emoji}</span>;
 }
 
 export function Shop({ state, onBuy, onEquip, onClose }: ShopProps) {

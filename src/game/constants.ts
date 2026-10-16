@@ -62,7 +62,8 @@ export const SHOP: ShopItem[] = [
   { id: "colar", slot: "pescoco", nome: "Colar de coração", emoji: "💛", preco: 20 },
   { id: "flores", slot: "pescoco", nome: "Colar de flores", emoji: "🌺", preco: 16 },
   { id: "medalha", slot: "pescoco", nome: "Medalha", emoji: "🏅", preco: 18 },
-  { id: "diamante", slot: "pescoco", nome: "Diamante", emoji: "💎", preco: 35 },
+  // não existe emoji de esmeralda: usamos 💎 e o CSS (`.item--esmeralda`) pinta de verde
+  { id: "esmeralda", slot: "pescoco", nome: "Esmeralda", emoji: "💎", preco: 35 },
 
   { id: "creme", slot: "parede", nome: "Creme (padrão)", emoji: "🟨", preco: 0 },
   { id: "rosa", slot: "parede", nome: "Rosinha", emoji: "🌷", preco: 20 },

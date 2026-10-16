@@ -57,7 +57,7 @@ function GameScreen() {
   }
 
   const worn = (slot: Slot) => SHOP_BY_ID[state.equipado[slot] ?? ""];
-  const gear = { cabeca: worn("cabeca")?.emoji, rosto: worn("rosto")?.emoji, pescoco: worn("pescoco")?.emoji };
+  const gear = { cabeca: worn("cabeca"), rosto: worn("rosto"), pescoco: worn("pescoco") };
 
   return (
     <main className="app">

@@ -314,3 +314,6 @@ button, label.btn { touch-action: manipulation; user-select: none; }
 .floor--piso-grama { --floor: repeating-linear-gradient(90deg, #9edb86 0 30px, #8fd078 30px 60px); }
 .floor--piso-xadrez { --floor: conic-gradient(#fff 25%, #ffc9a8 0 50%, #fff 0 75%, #ffc9a8 0) 0 0 / 44px 44px; }
 .floor--piso-azulejo { --floor: linear-gradient(#ffffff55 2px, transparent 2px) 0 0 / 100% 22px, linear-gradient(90deg, #ffffff55 2px, transparent 2px) 0 0 / 22px 100%, #aedcf7; }
+
+/* ---------- Esmeralda: o emoji 💎 pintado de verde ---------- */
+.item--esmeralda { filter: hue-rotate(-62deg) saturate(1.5) brightness(0.95) drop-shadow(0 2px 0 rgba(90, 52, 22, 0.25)); }

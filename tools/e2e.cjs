@@ -66,7 +66,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await ev(`(() => { const s = JSON.parse(localStorage.getItem('purin-emilly-v1')); s.moedas = 300; s.dormindo = false; s.energia = 80; localStorage.setItem('purin-emilly-v1', JSON.stringify(s)); })()`);
   await send("Page.navigate", { url: "http://127.0.0.1:8123/" }); await sleep(2500);
   console.log("shop", await clickText(".action", "Loja")); await sleep(400); await shot("10-shop");
-  for (const n of ["Coroinha", "Óculos escuros", "Laço"]) console.log("buy", n, await clickText(".card", n));
+  for (const n of ["Coroinha", "Óculos escuros", "Esmeralda"]) console.log("buy", n, await clickText(".card", n));
   await sleep(300);
   console.log("tab", await clickText(".tab", "Quarto"));
   for (const n of ["Rosinha", "Ursinho"]) console.log("buy", n, await clickText(".card", n));

@@ -4,7 +4,7 @@ import { Alignment, Fit, Layout, RuntimeLoader, useRive, useStateMachineInput } 
 import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { Vape } from "./Vape";
 import { MOOD_ID, VAPE_MS } from "@/game/constants";
-import type { Mood, PurinTrigger } from "@/game/types";
+import type { Mood, PurinTrigger, ShopItem } from "@/game/types";
 import { BASE_PATH, asset } from "@/utils";
 
 // o .wasm do Rive fica em /public/vendor (copiado no `npm install`) — funciona offline
@@ -18,8 +18,8 @@ export interface PurinHandle {
   vape: () => void;
 }
 
-/** Emojis das roupinhas equipadas em cada espaço do Purin */
-export type Gear = Partial<Record<"cabeca" | "rosto" | "pescoco", string>>;
+/** Roupinhas equipadas em cada espaço do Purin */
+export type Gear = Partial<Record<"cabeca" | "rosto" | "pescoco", ShopItem>>;
 
 interface Props {
   mood: Mood;
@@ -83,9 +83,12 @@ export function Purin({ mood, gear, ref, onPet }: Props) {
         <RiveComponent className="purin__rive" />
       )}
       <span className="gear" aria-hidden>
-        {gear?.pescoco && <span className="gear__item gear__item--pescoco">{gear.pescoco}</span>}
-        {gear?.rosto && <span className="gear__item gear__item--rosto">{gear.rosto}</span>}
-        {gear?.cabeca && <span className="gear__item gear__item--cabeca">{gear.cabeca}</span>}
+        {(["pescoco", "rosto", "cabeca"] as const).map((slot) => {
+          const item = gear?.[slot];
+          return item && (
+            <span key={slot} className={`gear__item gear__item--${slot} item--${item.id}`}>{item.emoji}</span>
+          );
+        })}
         {vaping && <Vape />}
       </span>
     </button>
