@@ -78,7 +78,7 @@ export function useGame(fb: Feedback) {
   useEffect(() => {
     if (!boot.state.visto) return;
     fbRef.current.say(
-      boot.offline > 30 ? `${P}, que saudade Você demorou 🥺` : `Bem-vinda de volta, ${P}! 💛`,
+      boot.offline > 30 ? `${P}, que saudade Você demorou 🥺` : `Oi momo `,
       5000
     );
   }, [boot]);
