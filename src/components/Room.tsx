@@ -10,6 +10,8 @@ interface RoomProps {
   fx: FxItem[];
   /** id do papel de parede equipado */
   wallpaper?: string;
+  /** id do piso equipado */
+  floor?: string;
   /** emoji do enfeite equipado */
   ornament?: string;
   /** foto que aparece no porta-retrato (vazio = porta-retrato com "+") */
@@ -19,9 +21,9 @@ interface RoomProps {
 }
 
 /** O quartinho: fundo, porta-retrato, balão de fala, efeitos e o Purin (children). */
-export function Room({ mood, speech, fx, wallpaper, ornament, cover, onPhotos, children }: RoomProps) {
+export function Room({ mood, speech, fx, wallpaper, floor, ornament, cover, onPhotos, children }: RoomProps) {
   return (
-    <section className={`room room--${mood} wall--${wallpaper ?? "creme"}`} aria-live="polite">
+    <section className={`room room--${mood} wall--${wallpaper ?? "creme"} floor--${floor ?? "piso-madeira"}`} aria-live="polite">
       <div className="room__window" aria-hidden />
       <div className="room__floor" aria-hidden />
       {mood === "sleeping" && <div className="room__zzz" aria-hidden>💤</div>}

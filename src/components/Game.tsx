@@ -63,7 +63,7 @@ function GameScreen() {
     <main className="app">
       <Hud state={state} level={level} progress={progress} onMute={actions.toggleMute} onLetter={() => setPanel("letter")} onPhotos={openPhotos} />
 
-      <Room mood={mood} speech={speech} fx={items} wallpaper={worn("parede")?.id} ornament={worn("enfeite")?.emoji} cover={gallery.photos[0]?.src} onPhotos={openPhotos}>
+      <Room mood={mood} speech={speech} fx={items} wallpaper={worn("parede")?.id} floor={worn("piso")?.id} ornament={worn("enfeite")?.emoji} cover={gallery.photos[0]?.src} onPhotos={openPhotos}>
         <Purin ref={purin} mood={mood} gear={gear} onPet={actions.pet} />
       </Room>
 

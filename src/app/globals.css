@@ -115,6 +115,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .overlay { position: fixed; inset: 0; z-index: 20; background: rgba(90, 52, 22, 0.55); display: grid; place-items: center; padding: 16px; animation: fade 0.2s; }
 .modal, .welcome { width: 100%; max-width: 440px; max-height: 92dvh; overflow: auto; background: var(--card); border: 3px solid var(--brown); border-radius: 24px; padding: 16px; box-shadow: var(--shadow); animation: pop 0.25s ease-out; }
 .modal__grip { display: none; width: 44px; height: 5px; margin: -4px auto 10px; border-radius: 999px; background: rgba(90, 52, 22, 0.25); }
+.modal__grip { display: none; width: 44px; height: 5px; margin: -4px auto 10px; border-radius: 999px; background: rgba(90, 52, 22, 0.25); }
 .modal__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .modal__head h2 { margin: 0; font-size: 1.1rem; }
 
@@ -263,3 +264,53 @@ button, label.btn { touch-action: manipulation; user-select: none; }
   .icon-btn { width: 32px; height: 32px; }
   .action__icon { width: 40px; height: 40px; }
 }
+
+
+/* ---------- Loja: cartões ---------- */
+.shop__top { display: flex; align-items: center; gap: 12px; margin: 10px 0 2px; }
+.coins--lg { height: 40px; font-size: 1.05rem; flex: none; }
+.shop__progress { flex: 1; min-width: 0; font-size: 0.72rem; font-weight: 700; display: flex; flex-direction: column; gap: 3px; }
+.shop__progress span { opacity: 0.75; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.tabs { padding: 4px; background: #f6e8c0; border: 2px solid var(--brown); border-radius: 18px; gap: 4px; }
+.tab { border: 0; background: transparent; border-radius: 14px; padding: 9px 6px; transition: background 0.15s, box-shadow 0.15s; }
+.tab--on { background: #fff; box-shadow: 0 2px 0 rgba(90, 52, 22, 0.25), inset 0 0 0 2px var(--brown); }
+
+.shop__group { margin-top: 14px; }
+.shop__group h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
+.shop__group h3::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: rgba(90, 52, 22, 0.15); }
+
+.cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.card { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 6px 8px; text-align: center; background: #fff; border: 2px solid var(--brown); border-radius: 18px; box-shadow: 0 3px 0 rgba(90, 52, 22, 0.18); transition: transform 0.12s, box-shadow 0.12s, background 0.15s; }
+.card:not(:disabled):hover { transform: translateY(-2px); background: #fffaf0; }
+.card:not(:disabled):active { transform: translateY(2px); box-shadow: none; }
+.card__preview { display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #ffeeb8); border: 2px solid rgba(90, 52, 22, 0.2); overflow: hidden; }
+.card__emoji { font-size: 2rem; line-height: 1; filter: drop-shadow(0 2px 0 rgba(90, 52, 22, 0.18)); }
+.card__name { font-size: 0.74rem; font-weight: 700; line-height: 1.15; min-height: 2.3em; display: flex; align-items: center; }
+.card__action { display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-width: 64px; padding: 3px 10px; font-size: 0.78rem; font-weight: 700; background: linear-gradient(#fff0b0, #ffd86a); border: 2px solid var(--brown); border-radius: 999px; }
+.card--owned .card__action { background: #e6f7ec; }
+.card--on { background: #fff6d6; border-color: var(--maroon); box-shadow: 0 3px 0 rgba(140, 43, 59, 0.3); }
+.card--on .card__action { background: linear-gradient(#ffc2d3, #ff9fba); border-color: var(--maroon); }
+.card--locked { opacity: 0.6; filter: saturate(0.6); }
+.card--locked .card__action { background: #eee; }
+.card__check { position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 20px; height: 20px; font-size: 0.7rem; font-weight: 700; color: #fff; background: var(--maroon); border-radius: 50%; }
+
+/* amostras de papel de parede e piso */
+.swatch { display: block; width: 100%; height: 100%; }
+.swatch--floor { background: var(--floor, #e9b97a); }
+
+/* ---------- Mais papéis de parede ---------- */
+.wall--creme { background: #ffe9c7; }
+.wall--lavanda { background: repeating-linear-gradient(90deg, #e6dcff 0 28px, #d9ccff 28px 56px); }
+.wall--limao { background: radial-gradient(circle, #ffffff88 3px, transparent 4px) 0 0 / 26px 26px, #fff3a6; }
+.wall--ceu { background: radial-gradient(ellipse at 22% 24%, #fff 0 13%, transparent 14%), radial-gradient(ellipse at 30% 28%, #fff 0 10%, transparent 11%), radial-gradient(ellipse at 74% 14%, #fff 0 12%, transparent 13%), linear-gradient(#bfe6ff, #eaf7ff); }
+.wall--coracao { background: radial-gradient(circle, #ff8fab66 5px, transparent 6px) 0 0 / 34px 34px, radial-gradient(circle, #ff8fab66 5px, transparent 6px) 17px 17px / 34px 34px, #ffe3ec; }
+.wall--xadrez { background: conic-gradient(#fff 25%, #ffe0b8 0 50%, #fff 0 75%, #ffe0b8 0) 0 0 / 40px 40px; }
+
+/* ---------- Pisos ---------- */
+.room__floor { background: var(--floor, repeating-linear-gradient(90deg, #e9b97a 0 48px, #dfa966 48px 50px)); }
+.floor--piso-madeira { --floor: repeating-linear-gradient(90deg, #e9b97a 0 48px, #dfa966 48px 50px); }
+.floor--piso-rosa { --floor: repeating-linear-gradient(90deg, #ffc2d4 0 48px, #ffb0c7 48px 50px); }
+.floor--piso-grama { --floor: repeating-linear-gradient(90deg, #9edb86 0 30px, #8fd078 30px 60px); }
+.floor--piso-xadrez { --floor: conic-gradient(#fff 25%, #ffc9a8 0 50%, #fff 0 75%, #ffc9a8 0) 0 0 / 44px 44px; }
+.floor--piso-azulejo { --floor: linear-gradient(#ffffff55 2px, transparent 2px) 0 0 / 100% 22px, linear-gradient(90deg, #ffffff55 2px, transparent 2px) 0 0 / 22px 100%, #aedcf7; }

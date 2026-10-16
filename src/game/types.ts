@@ -21,7 +21,7 @@ export interface GameState {
 }
 
 /** Onde cada item da loja é colocado */
-export type Slot = "cabeca" | "rosto" | "pescoco" | "parede" | "enfeite";
+export type Slot = "cabeca" | "rosto" | "pescoco" | "parede" | "piso" | "enfeite";
 
 export interface ShopItem {
   id: string;

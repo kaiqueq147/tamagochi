@@ -66,17 +66,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await ev(`(() => { const s = JSON.parse(localStorage.getItem('purin-emilly-v1')); s.moedas = 300; s.dormindo = false; s.energia = 80; localStorage.setItem('purin-emilly-v1', JSON.stringify(s)); })()`);
   await send("Page.navigate", { url: "http://127.0.0.1:8123/" }); await sleep(2500);
   console.log("shop", await clickText(".action", "Loja")); await sleep(400); await shot("10-shop");
-  for (const n of ["Coroinha", "Óculos escuros", "Laço"]) console.log("buy", n, await clickText(".food", n));
+  for (const n of ["Coroinha", "Óculos escuros", "Laço"]) console.log("buy", n, await clickText(".card", n));
   await sleep(300);
   console.log("tab", await clickText(".tab", "Quarto"));
-  for (const n of ["Rosinha", "Ursinho"]) console.log("buy", n, await clickText(".food", n));
-  await sleep(300); await shot("11-shop-quarto");
+  for (const n of ["Rosinha", "Ursinho"]) console.log("buy", n, await clickText(".card", n));
+  await sleep(300); await shot("11-shop-quarto"); await ev("document.querySelector('.modal').scrollTop = 99999"); await sleep(300); await shot("11b-shop-quarto-fim");
   await ev("document.querySelector('.modal .icon-btn').click()"); await sleep(2500); await shot("12-dressed");
-  console.log("vape", await clickText(".action", "Vape")); await sleep(1200);
+  // com a florzinha na cabeça (bug relatado)
+  await ev(`(() => { const s = JSON.parse(localStorage.getItem('purin-emilly-v1')); s.itens.push('flor'); s.equipado.cabeca = 'flor'; s.dormindo = false; s.energia = 80; localStorage.setItem('purin-emilly-v1', JSON.stringify(s)); })()`);
+  await send("Page.navigate", { url: "http://127.0.0.1:8123/" }); await sleep(2500);
+  console.log("flor", await ev("document.querySelector('.gear__item--cabeca')?.textContent"));
+  console.log("vape", await clickText(".action", "Vape"));
+  await sleep(300); console.log("vape-dom", await ev("!!document.querySelector('.vape')"), await ev("document.querySelector('.bubble')?.textContent")); await sleep(1200);
   console.log("vape-img", await ev("(() => { const i = document.querySelector('.vape__device img'); const r = i.getBoundingClientRect(); return [i.complete, i.naturalWidth, Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height), getComputedStyle(i.parentElement).opacity].join(' '); })()"));
   await sleep(500); await shot("14-vape-drag");
   await sleep(1500); await shot("15-vape-smoke"); await sleep(3000);
   console.log("vape-gone", await ev("!document.querySelector('.vape')"));
+  await sleep(1500); // fim da trava
+  console.log("vape-2x", await clickText(".action", "Vape")); await sleep(400);
+  console.log("vape-2x-dom", await ev("!!document.querySelector('.vape')")); await sleep(6300);
   console.log("frame", await click(".frame")); await sleep(500); await shot("13-gallery");
   // upload de foto: usa um print anterior como arquivo de teste
   const doc = await send("DOM.getDocument");

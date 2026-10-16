@@ -60,8 +60,8 @@ export function buildMessages(p: string): Record<Mood, string[]> {
     ],
     tired: [
       "Que soninho... 😴",
-      `Posso tirar uma sonequinha, ${p}?`,
-      `Sonhei com você, ${p}💭`
+      `Posso tirar uma sonequinha ${p}?`,
+      `Sonhei com você ${p}💭`
     ],
     sleeping: [
       "Zzz... com você... Zzz...",

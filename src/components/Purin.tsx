@@ -3,7 +3,7 @@
 import { Alignment, Fit, Layout, RuntimeLoader, useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { Vape } from "./Vape";
-import { MOOD_ID } from "@/game/constants";
+import { MOOD_ID, VAPE_MS } from "@/game/constants";
 import type { Mood, PurinTrigger } from "@/game/types";
 import { BASE_PATH, asset } from "@/utils";
 
@@ -11,9 +11,6 @@ import { BASE_PATH, asset } from "@/utils";
 RuntimeLoader.setWasmUrl(`${BASE_PATH}/vendor/rive.wasm`);
 
 const STATE_MACHINE = "Purin";
-
-/** Duração total da animação de tragar + soltar fumaça (ms) */
-export const VAPE_MS = 5600;
 
 export interface PurinHandle {
   fire: (t: PurinTrigger) => void;

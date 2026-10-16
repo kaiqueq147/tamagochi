@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { sfx } from "@/audio/sfx";
 import { CONFIG } from "@/config/config";
-import { MINIGAME } from "@/game/constants";
+import { MINIGAME, VAPE_MS } from "@/game/constants";
 import { coinsFor, getMood, isClean, isFull, loveLevel, loveProgress, owns } from "@/game/logic";
 import { buildLoveMessages, buildMessages } from "@/game/messages";
 import { gameReducer } from "@/game/reducer";
@@ -147,20 +147,25 @@ export function useGame(fb: Feedback) {
       if (stateRef.current.dormindo) return shh();
       if (vaping.current) return;
       vaping.current = true;
-      const { say, burst, vape } = fbRef.current;
-      vape();
-      play("tragar");
-      await wait(2200);
-      play("soprar");
-      commit({ type: "vape" });
-      burst(["💨", "🍓", "❄️"], 4);
-      say(pick([
-        `... 💨, ${P}! 🍓❄️`,
-        "Ahhh pod é melhor que kaique 😮‍💨🍓",
-        `${P}, amo meu pod 💨`
-      ]), 4200);
-      await wait(3200);
-      vaping.current = false;
+      try {
+        const { say, burst, vape } = fbRef.current;
+        vape();
+        play("tragar");
+        await wait(2200);
+        play("soprar");
+        commit({ type: "vape" });
+        burst(["💨", "🍓", "❄️"], 4);
+        say(pick([
+          `... 💨, ${P}! 🍓❄️`,
+          "Ahhh pod é melhor que kaique 😮‍💨🍓",
+          `${P}, amo meu pod 💨`
+        ]), 4200);
+        // espera a animação terminar por completo antes de aceitar outra tragada
+        await wait(VAPE_MS - 2200);
+      } finally {
+        // sempre libera, mesmo se algo falhar no meio (senão o botão "trava")
+        vaping.current = false;
+      }
     },
 
     toggleSleep() {
